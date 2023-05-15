@@ -25,3 +25,16 @@ C:\Users\chrys\Desktop\BookProject\src\Book.Service\obj\Debug\net6.0\refint\Book
 C:\Users\chrys\Desktop\BookProject\src\Book.Service\obj\Debug\net6.0\Book.Service.pdb
 C:\Users\chrys\Desktop\BookProject\src\Book.Service\obj\Debug\net6.0\Book.Service.genruntimeconfig.cache
 C:\Users\chrys\Desktop\BookProject\src\Book.Service\obj\Debug\net6.0\ref\Book.Service.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\AWSSDK.Core.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\DnsClient.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\SharpCompress.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\Snappier.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\ZstdSharp.dll
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\chrys\Desktop\BookProject\src\Book.Service\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll

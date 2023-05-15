@@ -52,7 +52,7 @@ namespace Book.Service.Controllers
         [HttpPut("{id}")]
         public ActionResult<BooksDto> Put(int id, UpdateBookDto updateBookDto) {
 
-            BooksDto? existingBook = books.Where(book => book.Id ==id).SingleOrDefault();
+            BooksDto? existingBook = books.Where(book => book.Id == id).SingleOrDefault();
               if (existingBook == null) {
 
                 return NotFound();
@@ -64,7 +64,7 @@ namespace Book.Service.Controllers
                 Price = updateBookDto.Price
             };
 
-            var index = books.FindIndex(existingBook => existingBook.Id ==id);
+            var index = books.FindIndex(existingBook => existingBook.Id == id);
             books[index] = updatedBook;
 
             return Accepted();
@@ -73,7 +73,14 @@ namespace Book.Service.Controllers
         // Delete /items/{id}
         [HttpDelete("{Id}")]
         public IActionResult Delete(int id) {
-            var index = books.FindIndex(existingBook => existingBook.Id ==id);
+
+            var index = books.FindIndex(existingBook => existingBook.Id == id);
+          
+            if (index < 0) {
+
+                return NotFound();
+            }
+
             books.RemoveAt(index);
 
             return Accepted();

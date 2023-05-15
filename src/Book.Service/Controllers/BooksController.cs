@@ -20,11 +20,19 @@ namespace Book.Service.Controllers
         public IEnumerable<BooksDto> Get() {
             return books;
         }
+
         // GET /items/5
         [HttpGet("{id}")]
         public BooksDto? GetById(int id) {
             var book = books.Where(book => book.Id == id).SingleOrDefault();
             return book;
         }
-    } 
+
+        [HttpPost]
+        public ActionResult<BooksDto> Post(CreateBookDto createBookDto) {
+            var book = new BooksDto(4, createBookDto.BookName, createBookDto.Author, createBookDto.Price, DateTimeOffset.UtcNow);
+            books.Add(book);
+            return CreatedAtAction(nameof(GetById), new { id = book.Id}, book);
+        }
+    }
 }

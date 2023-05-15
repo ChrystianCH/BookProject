@@ -1,11 +1,13 @@
+
 using Book.Service.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Book.Service.Controllers {
+namespace Book.Service.Controllers
+{
 
     // https://localhost:5001/Books
     [ApiController]
-    [Route("Books")]
+    [Route("books")]
     public class BooksController: ControllerBase {
 
         private static readonly List<BooksDto> books = new() {
@@ -14,11 +16,11 @@ namespace Book.Service.Controllers {
             new BooksDto(Guid.NewGuid(), "Wiedźmin: Krew Elfów", "Andrzej Sapkowski", 69.99, DateTimeOffset.UtcNow),
         };
 
+        [HttpGet]
         public IEnumerable<BooksDto> Get() {
-            
             return books;
         }
-        // Get /items/5
+        // GET /items/5
         [HttpGet("{id}")]
         public BooksDto? GetById(Guid id) {
             var book = books.Where(book => book.Id == id).SingleOrDefault();

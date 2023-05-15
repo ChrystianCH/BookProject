@@ -11,9 +11,9 @@ namespace Book.Service.Controllers
     public class BooksController: ControllerBase {
 
         private static readonly List<BooksDto> books = new() {
-            new BooksDto(Guid.NewGuid(), "Wiedźmin: Ostatnie życzenie", "Andrzej Sapkowski", 59.99, DateTimeOffset.UtcNow),
-            new BooksDto(Guid.NewGuid(), "Wiedźmin: Miecze przeznaczenia", "Andrzej Sapkowski", 50.99, DateTimeOffset.UtcNow),
-            new BooksDto(Guid.NewGuid(), "Wiedźmin: Krew Elfów", "Andrzej Sapkowski", 69.99, DateTimeOffset.UtcNow),
+            new BooksDto(1, "Wiedźmin: Ostatnie życzenie", "Andrzej Sapkowski", 59.99, DateTimeOffset.UtcNow),
+            new BooksDto(2, "Wiedźmin: Miecze przeznaczenia", "Andrzej Sapkowski", 50.99, DateTimeOffset.UtcNow),
+            new BooksDto(3, "Wiedźmin: Krew Elfów", "Andrzej Sapkowski", 69.99, DateTimeOffset.UtcNow),
         };
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace Book.Service.Controllers
         }
         // GET /items/5
         [HttpGet("{id}")]
-        public BooksDto? GetById(Guid id) {
+        public BooksDto? GetById(int id) {
             var book = books.Where(book => book.Id == id).SingleOrDefault();
             return book;
         }

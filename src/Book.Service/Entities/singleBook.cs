@@ -1,6 +1,6 @@
 namespace Book.Service.Entities {
-    public class singleBook {
-        public int id { get; set; }
+    public class SingleBook {
+        public int Id { get; set; }
 
         public string? BookName { get; set; }
 

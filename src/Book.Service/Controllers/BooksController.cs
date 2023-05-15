@@ -1,4 +1,7 @@
 using Book.Service.Dtos;
+using Book.Service.Entities;
+using Book.Service.Extenstions;
+using Book.Service.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book.Service.Controllers
@@ -9,6 +12,7 @@ namespace Book.Service.Controllers
     [Route("books")]
     public class BooksController: ControllerBase {
 
+        private readonly BookRepository bookRepository = new();
         private static readonly List<BooksDto> books = new() {
 
             new BooksDto(1, "Wiedźmin: Ostatnie życzenie", "Andrzej Sapkowski", 59.99, DateTimeOffset.UtcNow),
@@ -17,70 +21,73 @@ namespace Book.Service.Controllers
         };
 
         [HttpGet]
-        public IEnumerable<BooksDto> Get() {
+        public async Task<IEnumerable<BooksDto>> GetAsync() {
 
+            var books = (await bookRepository.GetAllAsync()).Select(book => book.AsDto());
             return books;
         }
 
         // GET /items/{id}
         [HttpGet("{id}")]
-        public ActionResult<BooksDto>? GetById(int id) {
+        public async Task<ActionResult<BooksDto>> GetByIdAsync(int id) {
 
-            BooksDto? book = books.Where(book => book.Id == id).SingleOrDefault();
+            SingleBook book = await bookRepository.GetAsync(id);
 
             if (book == null) {
 
                 return NotFound();
             }
 
-            return book;
+            return book.AsDto();
         }
 
         // Post /items
         [HttpPost]
-        public ActionResult<BooksDto> Post(CreateBookDto createBookDto) {
+        public async Task<ActionResult<BooksDto>> PostAsync(CreateBookDto createBookDto) {
 
-            BooksDto book = new BooksDto(4, createBookDto.BookName, createBookDto.Author, createBookDto.Price, DateTimeOffset.UtcNow);
+            SingleBook book = new SingleBook{
+                BookName = createBookDto.BookName,
+                Author = createBookDto.Author,
+                Price = createBookDto.Price,
+                ReleaseDate = DateTimeOffset.UtcNow
+            };
 
-            books.Add(book);
+            await bookRepository.CreateAsync(book);
 
-            return CreatedAtAction(nameof(GetById), new { id = book.Id}, book);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = book.Id}, book);
         }
 
         // PUT /items/{id}
         [HttpPut("{id}")]
-        public ActionResult<BooksDto> Put(int id, UpdateBookDto updateBookDto) {
+        public async Task<ActionResult<BooksDto>> PutAsync(int id, UpdateBookDto updateBookDto) {
 
-            BooksDto? existingBook = books.Where(book => book.Id == id).SingleOrDefault();
-              if (existingBook == null) {
+            SingleBook existingBook = await bookRepository.GetAsync(id);
 
+            if (existingBook == null) {
                 return NotFound();
             }
 
-            BooksDto updatedBook = existingBook with {
-                BookName = updateBookDto.BookName,
-                Author = updateBookDto.Author,
-                Price = updateBookDto.Price
-            };
+            existingBook.BookName = updateBookDto.BookName;
+            existingBook.Author = updateBookDto.Author;
+            existingBook.Price = updateBookDto.Price;
 
-            var index = books.FindIndex(existingBook => existingBook.Id == id);
-            books[index] = updatedBook;
+            await bookRepository.UpdateAsync(existingBook);
 
             return Accepted();
         }
 
         // Delete /items/{id}
         [HttpDelete("{Id}")]
-        public IActionResult Delete(int id) {
+        public async Task<IActionResult> DeleteAsync(int id) {
 
-            var index = books.FindIndex(existingBook => existingBook.Id == id);
-          
-            if (index < 0) {
+            SingleBook book = await bookRepository.GetAsync(id);
+
+            if (book == null) {
 
                 return NotFound();
             }
 
-            books.RemoveAt(index);
+            await bookRepository.RemoveAsync(book.Id);
 
             return Accepted();
         }

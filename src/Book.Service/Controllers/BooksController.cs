@@ -20,7 +20,7 @@ namespace Book.Service.Controllers {
         }
         // Get /items/5
         [HttpGet("{id}")]
-        public BooksDto GetById(Guid id) {
+        public BooksDto? GetById(Guid id) {
             var book = books.Where(book => book.Id == id).SingleOrDefault();
             return book;
         }

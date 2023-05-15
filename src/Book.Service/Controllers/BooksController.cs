@@ -11,6 +11,7 @@ namespace Book.Service.Controllers
     public class BooksController: ControllerBase {
 
         private static readonly List<BooksDto> books = new() {
+
             new BooksDto(1, "Wiedźmin: Ostatnie życzenie", "Andrzej Sapkowski", 59.99, DateTimeOffset.UtcNow),
             new BooksDto(2, "Wiedźmin: Miecze przeznaczenia", "Andrzej Sapkowski", 50.99, DateTimeOffset.UtcNow),
             new BooksDto(3, "Wiedźmin: Krew Elfów", "Andrzej Sapkowski", 69.99, DateTimeOffset.UtcNow),
@@ -18,28 +19,36 @@ namespace Book.Service.Controllers
 
         [HttpGet]
         public IEnumerable<BooksDto> Get() {
+
             return books;
         }
 
         // GET /items/{id}
         [HttpGet("{id}")]
         public BooksDto? GetById(int id) {
+
             BooksDto? book = books.Where(book => book.Id == id).SingleOrDefault();
+
             return book;
         }
 
         // Post /items
         [HttpPost]
         public ActionResult<BooksDto> Post(CreateBookDto createBookDto) {
+
             BooksDto book = new BooksDto(4, createBookDto.BookName, createBookDto.Author, createBookDto.Price, DateTimeOffset.UtcNow);
+
             books.Add(book);
+
             return CreatedAtAction(nameof(GetById), new { id = book.Id}, book);
         }
 
-        //PUT /items/{id}
+        // PUT /items/{id}
         [HttpPut("{id}")]
         public ActionResult<BooksDto> Put(int id, UpdateBookDto updateBookDto) {
+
             BooksDto? existingBook = books.Where(book => book.Id ==id).SingleOrDefault();
+
             BooksDto updatedBook = existingBook with {
                 BookName = updateBookDto.BookName,
                 Author = updateBookDto.Author,
@@ -48,6 +57,15 @@ namespace Book.Service.Controllers
 
             var index = books.FindIndex(existingBook => existingBook.Id ==id);
             books[index] = updatedBook;
+
+            return NoContent();
+        }
+
+        // Delete /items/{id}
+        [HttpDelete("{Id}")]
+        public IActionResult Delete(int id) {
+            var index = books.FindIndex(existingBook => existingBook.Id ==id);
+            books.RemoveAt(index);
 
             return NoContent();
         }
